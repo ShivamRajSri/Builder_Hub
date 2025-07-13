@@ -3,15 +3,37 @@ const router = express.Router();
 const Product = require("../Models/SellerProduct");
 const { body } = require("express-validator")
 const sellerController=require("../Controlers/Sellercontrollers");
+const multer = require("multer");
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage });
 const sellermiddleware=require("../Middlewares/Sellermiddleware")
-router.post("/add", async (req, res) => {
+router.post("/add", upload.array("images"), async (req, res) => {
   try {
-    const { title, price, image } = req.body;
-    const newProduct = new Product({ title, price, image });
+    const { title, price, description } = req.body;
+    const imageFiles = req.files;
+
+    if (!title || !price || !description || imageFiles.length === 0) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // Convert image buffers to base64 (for storing in DB) OR save to cloud/local
+    const imageUrls = imageFiles.map(file => {
+      return `data:${file.mimetype};base64,${file.buffer.toString("base64")}`;
+    });
+
+    const newProduct = new Product({
+      title,
+      price,
+      description,
+      images: imageUrls,
+    });
+
     await newProduct.save();
-    res.status(201).json({ message: "Product added", product: newProduct});
-  } catch (error) {
-    res.status(500).json({ error: "Failed to add product" });
+
+    res.json({ success: true, message: "Product added", product: newProduct });
+  } catch (err) {
+    console.error("Error saving product:", err);
+    res.status(500).json({ success: false, error: "Server error" });
   }
 });
 router.get("/materials", async (req, res) => {

@@ -5,9 +5,10 @@ import { Card, CardContent } from "../Components/Card";
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
-  const [page, setPage] = useState(1); 
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const loaderRef = useRef(null);
+
   const fetchProducts = async () => {
     try {
       const res = await fetch(`http://localhost:3000/seller/materials?page=${page}&limit=9`);
@@ -27,6 +28,7 @@ export default function HomePage() {
   useEffect(() => {
     fetchProducts();
   }, [page]);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -62,6 +64,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
       <section className="py-12 bg-gray-100">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl font-bold mb-6">Building Materials</h2>
@@ -69,7 +72,7 @@ export default function HomePage() {
             {products.map((product) => (
               <Card key={product._id}>
                 <img
-                  src={product.image}
+                  src={product.images?.[0]} // ✅ Access the first image from images array
                   alt={product.title}
                   className="rounded-t-xl w-full h-48 object-cover"
                 />
@@ -81,6 +84,7 @@ export default function HomePage() {
               </Card>
             ))}
           </div>
+
           {hasMore && (
             <div ref={loaderRef} className="text-center py-10 text-gray-500">
               Loading more...
