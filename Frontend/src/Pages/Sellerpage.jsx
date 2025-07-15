@@ -34,7 +34,7 @@ export default function SellerPage() {
     data.append("title", formData.title);
     data.append("price", formData.price);
     data.append("description", formData.description);
-
+ 
     formData.images.forEach((img) => {
       data.append("images", img);
     });
@@ -44,7 +44,6 @@ export default function SellerPage() {
         method: "POST",
         body: data,
       });
-
       if (response.ok) {
         const result = await response.json();
         console.log("Product saved:", result);

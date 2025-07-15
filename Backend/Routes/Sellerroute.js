@@ -36,16 +36,18 @@ router.post("/add", upload.array("images"), async (req, res) => {
     res.status(500).json({ success: false, error: "Server error" });
   }
 });
-router.get("/materials", async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 9;
-  const skip = (page - 1) * limit;
-  try {
-    const products = await Product.find().skip(skip).limit(limit);
-    res.json(products);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to fetch products" });
-  }
+router.get('/materials', async (req, res) => {
+  const { page = 1, limit = 9, search = "" } = req.query;
+
+  const query = search
+    ? { title: { $regex: search, $options: "i" } }
+    : {};
+
+  const materials = await Product.find(query)
+    .skip((page - 1) * limit)
+    .limit(Number(limit));
+
+  res.json(materials);
 });
 router.post('/register-seller', [
     body('email').isEmail().withMessage('Invalid Email'),
