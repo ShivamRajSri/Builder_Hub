@@ -16,7 +16,7 @@ Builder Hub is a full-stack web application that connects **buyers** and **selle
 - **Express.js**
 
 ### 🗃️ Database
-- **SQL Database** (MySQL / PostgreSQL)
+- **Mongo Database** 
 
 ### 🔒 Authentication
 - JWT (JSON Web Token)
