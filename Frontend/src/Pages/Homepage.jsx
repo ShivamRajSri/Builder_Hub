@@ -14,7 +14,6 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const loaderRef = useRef(null);
   const observer = useRef(null);
-
   const LIMIT = 6;
 
   const fetchProducts = useCallback(async ({ reset = false, pageNum = 1 }) => {
