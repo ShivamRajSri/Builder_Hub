@@ -1,0 +1,16 @@
+.results-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+.search-result {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.search-result:hover {
+  background-color: #f3f4f6;
+}
