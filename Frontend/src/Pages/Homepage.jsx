@@ -96,21 +96,20 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {products.map((product) => (
-              <Card key={product._id}>
-                <img
-                  src={
-                    product.images?.[0] ||
-                    "https://via.placeholder.com/400x250.png?text=No+Image"
-                  }
-                  alt={product.title}
-                  className="rounded-t-xl w-full h-48 object-cover"
-                />
-                <CardContent className="p-4">
-                  <h3 className="text-lg font-semibold">{product.title}</h3>
-                  <p className="text-blue-600 font-bold mt-2">{product.price}</p>
-                  <Button className="mt-4 w-full">View Details</Button>
-                </CardContent>
-              </Card>
+<Card key={product._id} className="h-full">
+  <div className="flex-grow">
+    <img
+      src={product.images?.[0] || "https://via.placeholder.com/400x250.png?text=No+Image"}
+      alt={product.title}
+      className="w-full h-full object-cover"
+    />
+  </div>
+  <CardContent>
+    <h3 className="text-lg font-semibold">{product.title}</h3>
+    <p className="text-blue-600 font-bold mt-2">{product.price}</p>
+    <Button className="mt-4 w-full">View Details</Button>
+  </CardContent>
+</Card>
             ))}
           </div>
 
